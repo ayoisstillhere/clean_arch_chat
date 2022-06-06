@@ -9,12 +9,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Clean Architecture Responsive Chat room',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Material App Bar'),
-        ),
-        body: HomeScreen(),
-      ),
+      home: HomeScreen()
     );
   }
 }
