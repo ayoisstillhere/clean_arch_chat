@@ -1,10 +1,12 @@
-import 'package:clean_arch_chat/features/chatroom/presentation/bloc/auth/auth_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'features/chatroom/presentation/bloc/auth/auth_cubit.dart';
 import 'features/chatroom/presentation/screens/home_screen.dart';
+import 'features/chatroom/presentation/screens/welcome_screen.dart';
+import 'injection_container.dart' as di;
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +24,7 @@ Future main() async {
     await Firebase.initializeApp();
   }
 
+  await di.init();
   runApp(const MyApp());
 }
 
@@ -33,15 +36,27 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthCubit>(
-          create: (_) => AuthCubit(
-              isSignInUseCase: isSignInUseCase,
-              getCurrentUidUseCase: getCurrentUidUseCase),
+          create: (_) => di.sl<AuthCubit>()..AppStarted(),
         )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Clean Architecture Responsive Chat room',
-        home: HomeScreen(),
+        routes: {
+          "/": (context) {
+            return BlocBuilder<AuthCubit, AuthState>(
+              builder: (context, authState) {
+                if (authState is Authenticated) {
+                  return WelcomeScreen(uid: authState.uid);
+                }
+                if (authState is UnAuthenticated) {
+                  return HomeScreen();
+                }
+                return Container();
+              },
+            );
+          }
+        },
       ),
     );
   }
