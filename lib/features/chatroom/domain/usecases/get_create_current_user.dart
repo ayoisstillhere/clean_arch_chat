@@ -5,12 +5,11 @@ class GetCreateCurrentUser {
 
   GetCreateCurrentUser({required this.repository});
 
-  Future<void> call(String email, String name, String profileUrl, String uid) async {
+  Future<void> call(String email, String name, String profileUrl) async {
     repository.getCreateCurrentUser(
       email,
       name,
       profileUrl,
-      uid,
     );
   }
 }

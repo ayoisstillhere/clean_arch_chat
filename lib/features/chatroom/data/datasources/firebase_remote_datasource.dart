@@ -8,7 +8,7 @@ abstract class FirebaseRemoteDataSource {
   Future<bool> isSignIn();
   Future<String> getCurrentUid();
   Future<void> getCreateCurrentUser(
-      String email, String name, String profileUrl, String uid);
+      String email, String name, String profileUrl);
 }
 
 class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
@@ -33,13 +33,13 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
 
   @override
   Future<void> getCreateCurrentUser(
-      String email, String name, String profileUrl, String uid) async {
+      String email, String name, String profileUrl) async {
     _userCollection.doc(_auth.currentUser!.uid).get().then((user) {
       if (!user.exists) {
         final newUser = UserModel(
           name: name,
           email: email,
-          uid: uid,
+          uid: _auth.currentUser!.uid,
           profileUrl: profileUrl,
         ).toDocument();
         _userCollection.doc(_auth.currentUser!.uid).set(newUser);

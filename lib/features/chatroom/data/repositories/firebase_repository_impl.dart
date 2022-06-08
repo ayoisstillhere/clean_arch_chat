@@ -23,8 +23,8 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
 
   @override
   Future<void> getCreateCurrentUser(
-      String email, String name, String profileUrl, String uid) async {
+      String email, String name, String profileUrl) async {
     return await firebaseRemoteDataSource.getCreateCurrentUser(
-        email, name, profileUrl, uid);
+        email, name, profileUrl,);
   }
 }
