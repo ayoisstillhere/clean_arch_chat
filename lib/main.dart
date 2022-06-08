@@ -1,8 +1,10 @@
+import 'package:clean_arch_chat/features/chatroom/presentation/bloc/auth/auth_cubit.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'features/chatroom/presentation/screens/home_screen.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,10 +30,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Clean Architecture Responsive Chat room',
-      home: HomeScreen(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthCubit>(
+          create: (_) => AuthCubit(
+              isSignInUseCase: isSignInUseCase,
+              getCurrentUidUseCase: getCurrentUidUseCase),
+        )
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Clean Architecture Responsive Chat room',
+        home: HomeScreen(),
+      ),
     );
   }
 }
