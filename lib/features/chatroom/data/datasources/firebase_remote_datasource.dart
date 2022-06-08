@@ -14,6 +14,11 @@ abstract class FirebaseRemoteDataSource {
 class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _userCollection = FirebaseFirestore.instance.collection("users");
+  final _globalChatChannelCollection =
+      FirebaseFirestore.instance.collection("globalChatChannel");
+
+  final String channelId = "qKeiYQhgNkWFh3xf4r9w";
+
   @override
   Future<String> getCurrentUid() async => _auth.currentUser!.uid;
 
