@@ -73,10 +73,7 @@ class _RightSideWidgetState extends State<RightSideWidget> {
     return Column(
       children: [
         isLoginPage
-            ? Text(
-                "",
-                style: TextStyle(fontSize: 0),
-              )
+            ? const SizedBox(height: 0,)
             : Container(
                 height: 60,
                 alignment: Alignment.center,
@@ -92,10 +89,7 @@ class _RightSideWidgetState extends State<RightSideWidget> {
                 ),
               ),
         isLoginPage
-            ? Text(
-                "",
-                style: TextStyle(fontSize: 0),
-              )
+            ? const SizedBox(height: 0,)
             : SizedBox(height: 20),
         Container(
           height: 60,
