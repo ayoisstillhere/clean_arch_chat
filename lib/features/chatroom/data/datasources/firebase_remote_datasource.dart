@@ -81,10 +81,19 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   }
 
   @override
-  Future<void> sendTextMessage(TextMessageModel textMessage) async {
+  Future<void> sendTextMessage(TextMessageEntity textMessage) async {
+    final newMessage = TextMessageModel(
+      message: textMessage.message,
+      recipientId: textMessage.recipientId,
+      time: textMessage.time,
+      receiverName: textMessage.receiverName,
+      senderId: textMessage.senderId,
+      senderName: textMessage.senderName,
+      type: textMessage.type,
+    );
     _globalChatChannelCollection
         .doc(channelId)
         .collection("messages")
-        .add(textMessage.toDocument());
+        .add(newMessage.toDocument());
   }
 }
