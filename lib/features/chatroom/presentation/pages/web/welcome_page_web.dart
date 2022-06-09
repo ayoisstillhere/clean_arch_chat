@@ -1,4 +1,5 @@
 import 'package:clean_arch_chat/features/chatroom/data/models/user_model.dart';
+import 'package:clean_arch_chat/features/chatroom/presentation/pages/web/single_chat_page_web.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -71,7 +72,7 @@ class _WelcomePageWebState extends State<WelcomePageWeb> {
               ),
             ),
           ),
-          _joinGlobalChatButton(),
+          _joinGlobalChatButton(name: user.name),
           _logOutWidget(),
           Align(
             alignment: Alignment.bottomRight,
@@ -105,7 +106,7 @@ class _WelcomePageWebState extends State<WelcomePageWeb> {
     );
   }
 
-  Widget _joinGlobalChatButton() {
+  Widget _joinGlobalChatButton({required String name}) {
     return Align(
       alignment: Alignment.center,
       child: Column(
@@ -119,34 +120,49 @@ class _WelcomePageWebState extends State<WelcomePageWeb> {
             ),
           ),
           const SizedBox(height: 30),
-          Container(
-            width: 250,
-            height: 70,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.3),
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              border: Border.all(
-                color: Colors.white60,
-                width: 2,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => SingleChatPageWeb(
+                    userName: name,
+                    uid: widget.uid,
+                  ),
+                ),
+              );
+            },
+            child: Container(
+              width: 250,
+              height: 70,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.3),
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                border: Border.all(
+                  color: Colors.white60,
+                  width: 2,
+                ),
               ),
-            ),
-            child: Text(
-              "Join",
-              style: TextStyle(fontSize: 30),
+              child: Text(
+                "Join",
+                style: TextStyle(fontSize: 30),
+              ),
             ),
           ),
         ],
       ),
     );
   }
-    Widget _logOutWidget() {
-    return InkWell(
-      onTap: () {
-        //TODO: logout
-      },
-      child: Align(
-        alignment: Alignment.bottomLeft,
+
+  Widget _logOutWidget() {
+    return Align(
+      alignment: Alignment.bottomLeft,
+      child: InkWell(
+        onTap: () {
+          //TODO: logout
+          print("logout");
+        },
         child: Container(
           margin: EdgeInsets.only(left: 15, bottom: 15),
           padding: EdgeInsets.all(10),
@@ -162,5 +178,4 @@ class _WelcomePageWebState extends State<WelcomePageWeb> {
       ),
     );
   }
-
 }
