@@ -1,6 +1,9 @@
+import 'package:clean_arch_chat/features/chatroom/data/models/text_message_model.dart';
 import 'package:clean_arch_chat/features/chatroom/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import '../../domain/entities/text_message_entity.dart';
 
 abstract class FirebaseRemoteDataSource {
   Future<void> signUp(String email, String password);
@@ -9,6 +12,9 @@ abstract class FirebaseRemoteDataSource {
   Future<String> getCurrentUid();
   Future<void> getCreateCurrentUser(
       String email, String name, String profileUrl);
+  Future<void> sendTextMessage(TextMessageEntity textMessage);
+  Stream<List<UserModel>> getUsers();
+  Stream<List<TextMessageModel>> getMessages();
 }
 
 class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
@@ -54,5 +60,31 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
         return;
       }
     });
+  }
+
+  @override
+  Stream<List<TextMessageModel>> getMessages() {
+    return _globalChatChannelCollection
+        .doc(channelId)
+        .collection("messages")
+        .snapshots()
+        .map((querySnapshot) => querySnapshot.docs
+            .map((docSnapshot) => TextMessageModel.fromSnapshot(docSnapshot))
+            .toList());
+  }
+
+  @override
+  Stream<List<UserModel>> getUsers() {
+    return _userCollection.snapshots().map((querySnapshot) => querySnapshot.docs
+        .map((docSnapshot) => UserModel.fromSnapshot(docSnapshot))
+        .toList());
+  }
+
+  @override
+  Future<void> sendTextMessage(TextMessageModel textMessage) async {
+    _globalChatChannelCollection
+        .doc(channelId)
+        .collection("messages")
+        .add(textMessage.toDocument());
   }
 }
