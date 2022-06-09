@@ -1,4 +1,5 @@
 import 'package:clean_arch_chat/features/chatroom/domain/usecases/send_text_message_usecase.dart';
+import 'package:clean_arch_chat/features/chatroom/presentation/bloc/user/user_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 import 'features/chatroom/data/datasources/firebase_remote_datasource.dart';
@@ -24,6 +25,7 @@ Future<void> init() async {
       signUpUseCase: sl.call(),
       signInUseCase: sl.call(),
       getCreateCurrentUser: sl.call()));
+  sl.registerFactory<UserCubit>(() => UserCubit(usersUsecase: sl.call()));
 
   //!useCase
   sl.registerLazySingleton<IsSignInUseCase>(
