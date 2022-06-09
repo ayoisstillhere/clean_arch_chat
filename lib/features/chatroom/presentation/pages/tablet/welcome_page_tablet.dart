@@ -72,6 +72,11 @@ class _WelcomePageTabletState extends State<WelcomePageTablet> {
             ),
           ),
           _joinGlobalChatButton(),
+          _logOutWidget(),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Lottie.asset("bubble.json"),
+          ),
         ],
       ),
     );
@@ -135,4 +140,27 @@ class _WelcomePageTabletState extends State<WelcomePageTablet> {
       ),
     );
   }
+    Widget _logOutWidget() {
+    return InkWell(
+      onTap: () {
+        //TODO: logout
+      },
+      child: Align(
+        alignment: Alignment.bottomLeft,
+        child: Container(
+          margin: EdgeInsets.only(left: 15, bottom: 15),
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.3),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: Icon(
+            Icons.exit_to_app,
+            size: 30,
+          ),
+        ),
+      ),
+    );
+  }
+
 }
