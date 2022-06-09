@@ -10,8 +10,10 @@ class MobilePage extends StatelessWidget {
     return ResponsiveBuilder(
       builder: (context, sizingInformation) {
         return Scaffold(
-          body: Container(
-            child: BodyWidget(sizingInformation: sizingInformation),
+          body: SingleChildScrollView(
+            child: Container(
+              child: BodyWidget(sizingInformation: sizingInformation),
+            ),
           ),
         );
       },
