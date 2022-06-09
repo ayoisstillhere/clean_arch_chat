@@ -254,4 +254,5 @@ class _RightSideWidgetState extends State<RightSideWidget> {
       );
     }
   }
+
 }

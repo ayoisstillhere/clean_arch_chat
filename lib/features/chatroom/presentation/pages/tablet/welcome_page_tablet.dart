@@ -1,11 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
-class WelcomePageTablet extends StatelessWidget {
-  const WelcomePageTablet({Key? key}) : super(key: key);
+import '../../../data/models/user_model.dart';
+import '../../bloc/user/user_cubit.dart';
+
+class WelcomePageTablet extends StatefulWidget {
+  final String uid;
+  const WelcomePageTablet({
+    Key? key,
+    required this.uid,
+  }) : super(key: key);
+
+  @override
+  State<WelcomePageTablet> createState() => _WelcomePageTabletState();
+}
+
+class _WelcomePageTabletState extends State<WelcomePageTablet> {
+  @override
+  void initState() {
+    BlocProvider.of<UserCubit>(context).getUsers();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<UserCubit, UserState>(
+      builder: (_, state) {
+        if (state is UserLoaded) {
+          return _bodyWidget(state);
+        }
+        return _loadingWidget();
+      },
+    );
+  }
+
+  Widget _bodyWidget(UserLoaded users) {
+    final user = users.users.firstWhere((user) => user.uid == widget.uid,
+        orElse: () => UserModel(name: "", email: "", uid: "", profileUrl: ""));
     return Scaffold(
       body: Stack(
         children: [
@@ -30,7 +62,7 @@ class WelcomePageTablet extends StatelessWidget {
             child: Container(
               margin: EdgeInsets.only(top: 100),
               child: Text(
-                "Welcome XYZName",
+                "Welcome ${user.name}",
                 style: TextStyle(
                   fontSize: 25,
                   color: Colors.white,
@@ -40,6 +72,29 @@ class WelcomePageTablet extends StatelessWidget {
             ),
           ),
           _joinGlobalChatButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget _loadingWidget() {
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.indigo[400]!,
+                  Colors.blue[300]!,
+                ],
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: CircularProgressIndicator(),
+          ),
         ],
       ),
     );

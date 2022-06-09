@@ -1,11 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
-class WelcomePageMobile extends StatelessWidget {
-  const WelcomePageMobile({Key? key}) : super(key: key);
+import '../../../data/models/user_model.dart';
+import '../../bloc/user/user_cubit.dart';
+
+class WelcomePageMobile extends StatefulWidget {
+  final String uid;
+  const WelcomePageMobile({
+    Key? key,
+    required this.uid,
+  }) : super(key: key);
+
+  @override
+  State<WelcomePageMobile> createState() => _WelcomePageMobileState();
+}
+
+class _WelcomePageMobileState extends State<WelcomePageMobile> {
+  @override
+  void initState() {
+    BlocProvider.of<UserCubit>(context).getUsers();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<UserCubit, UserState>(
+      builder: (_, state) {
+        if (state is UserLoaded) {
+          return _bodyWidget(state);
+        }
+        return _loadingWidget();
+      },
+    );
+  }
+
+  Scaffold _bodyWidget(UserLoaded users) {
+    final user = users.users.firstWhere((user) => user.uid == widget.uid,
+        orElse: () => UserModel(name: "", email: "", uid: "", profileUrl: ""));
     return Scaffold(
       body: Stack(
         children: [
@@ -22,7 +54,7 @@ class WelcomePageMobile extends StatelessWidget {
           Align(
             alignment: Alignment.topCenter,
             child: Lottie.asset(
-              "congratulation.json",
+              "assets/congratulation.json",
             ),
           ),
           Align(
@@ -30,7 +62,7 @@ class WelcomePageMobile extends StatelessWidget {
             child: Container(
               margin: EdgeInsets.only(top: 80),
               child: Text(
-                "Welcome XYZName",
+                "Welcome ${user.name}",
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.white,
@@ -40,6 +72,29 @@ class WelcomePageMobile extends StatelessWidget {
             ),
           ),
           _joinGlobalChatButton(),
+        ],
+      ),
+    );
+  }
+
+  Scaffold _loadingWidget() {
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.indigo[400]!,
+                  Colors.blue[300]!,
+                ],
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: CircularProgressIndicator(),
+          ),
         ],
       ),
     );

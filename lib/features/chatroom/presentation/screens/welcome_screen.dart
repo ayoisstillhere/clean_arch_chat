@@ -14,12 +14,12 @@ class WelcomeScreen extends StatelessWidget {
     return ResponsiveBuilder(
       builder: (context, sizingInformation) {
         if (sizingInformation.isDesktop) {
-          return WelcomePageWeb();
+          return WelcomePageWeb(uid: uid,);
         }
         if (sizingInformation.isTablet) {
-          return WelcomePageTablet();
+          return WelcomePageTablet(uid: uid,);
         }
-        return WelcomePageMobile();
+        return WelcomePageMobile(uid: uid,);
       },
     );
   }
