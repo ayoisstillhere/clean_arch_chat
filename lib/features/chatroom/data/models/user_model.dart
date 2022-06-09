@@ -21,10 +21,10 @@ class UserModel extends UserEntity {
 
   factory UserModel.fromSnapshot(DocumentSnapshot documentSnapshot) {
     return UserModel(
-      name: documentSnapshot['name'],
-      email: documentSnapshot['email'],
-      uid: documentSnapshot['uid'],
-      profileUrl: documentSnapshot['profileUrl'],
+      name: (documentSnapshot.data()! as dynamic)['name'],
+      email: (documentSnapshot.data()! as dynamic)['email'],
+      uid: (documentSnapshot.data()! as dynamic)['uid'],
+      profileUrl: (documentSnapshot.data()! as dynamic)['profileUrl'],
     );
   }
 
