@@ -27,24 +27,24 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
   Future<void> getCreateCurrentUser(
       String email, String name, String profileUrl) async {
     return await firebaseRemoteDataSource.getCreateCurrentUser(
-        email, name, profileUrl,);
+      email,
+      name,
+      profileUrl,
+    );
   }
 
   @override
   Stream<List<TextMessageEntity>> getMessages() {
-    // TODO: implement getMessages
-    throw UnimplementedError();
+    return firebaseRemoteDataSource.getMessages();
   }
 
   @override
   Stream<List<UserEntity>> getUsers() {
-    // TODO: implement getUsers
-    throw UnimplementedError();
+    return firebaseRemoteDataSource.getUsers();
   }
 
   @override
   Future<void> sendTextMessage(TextMessageEntity textMessage) {
-    // TODO: implement sendTextMessage
-    throw UnimplementedError();
+    return firebaseRemoteDataSource.sendTextMessage(textMessage);
   }
 }
