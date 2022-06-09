@@ -1,4 +1,5 @@
 import 'package:clean_arch_chat/features/chatroom/presentation/bloc/login/login_cubit.dart';
+import 'package:clean_arch_chat/features/chatroom/presentation/bloc/user/user_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<LoginCubit>(
           create: (_) => di.sl<LoginCubit>(),
+        ),
+        BlocProvider<UserCubit>(
+          create: (_) => di.sl<UserCubit>(),
         ),
       ],
       child: MaterialApp(
