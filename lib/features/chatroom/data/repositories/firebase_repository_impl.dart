@@ -47,4 +47,7 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
   Future<void> sendTextMessage(TextMessageEntity textMessage) {
     return firebaseRemoteDataSource.sendTextMessage(textMessage);
   }
+
+  @override
+  Future<void> signOut() => firebaseRemoteDataSource.signOut();
 }

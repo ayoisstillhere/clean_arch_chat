@@ -67,6 +67,7 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
     return _globalChatChannelCollection
         .doc(channelId)
         .collection("messages")
+        .orderBy("time")
         .snapshots()
         .map((querySnapshot) => querySnapshot.docs
             .map((docSnapshot) => TextMessageModel.fromSnapshot(docSnapshot))
