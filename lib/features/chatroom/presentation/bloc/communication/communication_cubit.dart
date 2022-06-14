@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/text_message_entity.dart';
@@ -17,9 +18,21 @@ class CommunicationCubit extends Cubit<CommunicationState> {
     required this.sendTextMessageUseCase,
   }) : super(CommunicationInitial());
 
-  Future<void> sendTextMsg({required TextMessageEntity textMessage}) async {
+  Future<void> sendTextMsg({
+    required String name,
+    required String uid,
+    required String message,
+  }) async {
     try {
-      await sendTextMessageUseCase.call(textMessage);
+      await sendTextMessageUseCase.call(TextMessageEntity(
+        "",
+        uid,
+        name,
+        "TEXT",
+        Timestamp.now(),
+        message,
+        "",
+      ));
     } on SocketException catch (_) {}
   }
 
