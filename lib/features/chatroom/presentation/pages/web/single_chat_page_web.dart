@@ -1,7 +1,11 @@
-import 'package:clean_arch_chat/features/chatroom/presentation/bloc/communication/communication_cubit.dart';
+import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+
+import '../../bloc/communication/communication_cubit.dart';
+import '../widget/message_layout.dart';
 
 class SingleChatPageWeb extends StatefulWidget {
   final String uid;
@@ -128,16 +132,45 @@ class _SingleChatPageWebState extends State<SingleChatPageWeb> {
 
   Widget _listMessagesWidget(CommunicationLoaded messages) {
     return Expanded(
-        child: ListView.builder(
-      itemCount: messages.messages.length,
-      itemBuilder: (_, index) {
-        return Container(
-          child: Text(
-            messages.messages[index].message,
-            style: TextStyle(fontSize: 18),
-          ),
-        );
-      },
+        child: Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+      ),
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: messages.messages.length,
+        itemBuilder: (_, index) {
+          return messages.messages[index].senderId == widget.uid
+              ? MessageLayout(
+                  uid: widget.uid,
+                  type: messages.messages[index].type,
+                  text: messages.messages[index].message,
+                  time: DateFormat('hh:mm a')
+                      .format(messages.messages[index].time.toDate()),
+                  color: Colors.green[300],
+                  align: TextAlign.left,
+                  boxAlignment: CrossAxisAlignment.end,
+                  nip: BubbleNip.rightTop,
+                  senderName: messages.messages[index].senderName,
+                  senderId: messages.messages[index].senderId,
+                  boxMainAxisAlignment: MainAxisAlignment.end,
+                )
+              : MessageLayout(
+                  uid: null,
+                  type: messages.messages[index].type,
+                  text: messages.messages[index].message,
+                  time: DateFormat('hh:mm a')
+                      .format(messages.messages[index].time.toDate()),
+                  color: Colors.blue,
+                  align: TextAlign.left,
+                  boxAlignment: CrossAxisAlignment.start,
+                  nip: BubbleNip.leftTop,
+                  senderName: messages.messages[index].senderName,
+                  senderId: messages.messages[index].senderId,
+                  boxMainAxisAlignment: MainAxisAlignment.start,
+                );
+        },
+      ),
     ));
   }
 
@@ -159,8 +192,12 @@ class _SingleChatPageWebState extends State<SingleChatPageWeb> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _emojiWidget(),
-            _textFieldWidget(),
+            Row(
+              children: [
+                _emojiWidget(),
+                _textFieldWidget(),
+              ],
+            ),
             Row(
               children: [
                 _micWidget(),
@@ -208,7 +245,7 @@ class _SingleChatPageWebState extends State<SingleChatPageWeb> {
     return ResponsiveBuilder(
       builder: (_, sizingInformation) {
         return Container(
-          width: sizingInformation.screenSize.width * 0.73,
+          width: sizingInformation.screenSize.width * 0.65,
           child: ConstrainedBox(
             constraints: BoxConstraints(
               maxHeight: 60,
