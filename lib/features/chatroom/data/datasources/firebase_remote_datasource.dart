@@ -8,6 +8,7 @@ import '../../domain/entities/text_message_entity.dart';
 abstract class FirebaseRemoteDataSource {
   Future<void> signUp(String email, String password);
   Future<void> signIn(String email, String password);
+  Future<void> signOut();
   Future<bool> isSignIn();
   Future<String> getCurrentUid();
   Future<void> getCreateCurrentUser(
@@ -96,5 +97,10 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
         .doc(channelId)
         .collection("messages")
         .add(newMessage.toDocument());
+  }
+
+  @override
+  Future<void> signOut() async {
+    await _auth.signOut();
   }
 }
