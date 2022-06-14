@@ -1,4 +1,6 @@
 import 'package:clean_arch_chat/features/chatroom/data/models/user_model.dart';
+import 'package:clean_arch_chat/features/chatroom/presentation/bloc/auth/auth_cubit.dart';
+import 'package:clean_arch_chat/features/chatroom/presentation/bloc/login/login_cubit.dart';
 import 'package:clean_arch_chat/features/chatroom/presentation/pages/web/single_chat_page_web.dart';
 import 'package:clean_arch_chat/features/chatroom/presentation/screens/single_chat_screen.dart';
 import 'package:flutter/material.dart';
@@ -165,8 +167,8 @@ class _WelcomePageWebState extends State<WelcomePageWeb> {
       alignment: Alignment.bottomLeft,
       child: InkWell(
         onTap: () {
-          //TODO: logout
-          print("logout");
+          BlocProvider.of<AuthCubit>(context).loggedOut();
+          BlocProvider.of<LoginCubit>(context).submitSignOut();
         },
         child: Container(
           margin: EdgeInsets.only(left: 15, bottom: 15),

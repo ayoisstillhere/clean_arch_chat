@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../data/models/user_model.dart';
+import '../../bloc/auth/auth_cubit.dart';
+import '../../bloc/login/login_cubit.dart';
 import '../../bloc/user/user_cubit.dart';
 import '../../screens/single_chat_screen.dart';
 
@@ -154,8 +156,8 @@ class _WelcomePageMobileState extends State<WelcomePageMobile> {
       alignment: Alignment.bottomLeft,
       child: InkWell(
         onTap: () {
-          //TODO: logout
-          print("logout");
+          BlocProvider.of<AuthCubit>(context).loggedOut();
+          BlocProvider.of<LoginCubit>(context).submitSignOut();
         },
         child: Container(
           margin: EdgeInsets.only(left: 15, bottom: 15),

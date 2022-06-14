@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../data/models/user_model.dart';
+import '../../bloc/auth/auth_cubit.dart';
+import '../../bloc/login/login_cubit.dart';
 import '../../bloc/user/user_cubit.dart';
 
 class WelcomePageTablet extends StatefulWidget {
@@ -156,7 +158,8 @@ class _WelcomePageTabletState extends State<WelcomePageTablet> {
     return Align(
       child: InkWell(
         onTap: () {
-          //TODO: logout
+          BlocProvider.of<AuthCubit>(context).loggedOut();
+          BlocProvider.of<LoginCubit>(context).submitSignOut();
         },
         child: Align(
           alignment: Alignment.bottomLeft,
