@@ -1,5 +1,6 @@
 import 'package:clean_arch_chat/features/chatroom/data/models/user_model.dart';
 import 'package:clean_arch_chat/features/chatroom/presentation/pages/web/single_chat_page_web.dart';
+import 'package:clean_arch_chat/features/chatroom/presentation/screens/single_chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -76,7 +77,11 @@ class _WelcomePageWebState extends State<WelcomePageWeb> {
           _logOutWidget(),
           Align(
             alignment: Alignment.bottomRight,
-            child: Lottie.asset("bubble.json"),
+            child: Container(
+              height: 380,
+              width: 380,
+              child: Lottie.asset("bubble.json"),
+            ),
           ),
         ],
       ),
@@ -125,7 +130,7 @@ class _WelcomePageWebState extends State<WelcomePageWeb> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => SingleChatPageWeb(
+                  builder: (_) => SingleChatScreen(
                     userName: name,
                     uid: widget.uid,
                   ),

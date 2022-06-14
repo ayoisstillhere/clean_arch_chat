@@ -1,3 +1,5 @@
+import 'package:clean_arch_chat/features/chatroom/presentation/pages/tablet/single_chat_page_tablet.dart';
+import 'package:clean_arch_chat/features/chatroom/presentation/screens/single_chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -43,40 +45,36 @@ class _WelcomePageTabletState extends State<WelcomePageTablet> {
         children: [
           Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.indigo[400]!,
-                  Colors.blue[300]!,
-                ],
-              ),
-            ),
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.indigo[400]!,
+                    Colors.blue[300]!,
+                  ],
+                )),
           ),
           Align(
             alignment: Alignment.topCenter,
-            child: Lottie.asset(
-              "congratulation.json",
-            ),
+            child: Lottie.asset("assets/congratulation.json"),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Lottie.asset("assets/bubble.json"),
           ),
           Align(
             alignment: Alignment.topCenter,
             child: Container(
-              margin: EdgeInsets.only(top: 100),
-              child: Text(
-                "Welcome ${user.name}",
-                style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+                margin: EdgeInsets.only(top: 100),
+                child: Text(
+                  "Welcome ${user.name}",
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
           ),
-          _joinGlobalChatButton(),
+          _joinGlobalChatButton(user.name),
           _logOutWidget(),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Lottie.asset("bubble.json"),
-          ),
         ],
       ),
     );
@@ -105,7 +103,7 @@ class _WelcomePageTabletState extends State<WelcomePageTablet> {
     );
   }
 
-  Widget _joinGlobalChatButton() {
+  Widget _joinGlobalChatButton(String name) {
     return Align(
       alignment: Alignment.center,
       child: Column(
@@ -119,48 +117,65 @@ class _WelcomePageTabletState extends State<WelcomePageTablet> {
             ),
           ),
           const SizedBox(height: 30),
-          Container(
-            width: 250,
-            height: 70,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.3),
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              border: Border.all(
-                color: Colors.white60,
-                width: 2,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => SingleChatScreen(
+                    userName: name,
+                    uid: widget.uid,
+                  ),
+                ),
+              );
+            },
+            child: Container(
+              width: 250,
+              height: 70,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.3),
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                border: Border.all(
+                  color: Colors.white60,
+                  width: 2,
+                ),
               ),
-            ),
-            child: Text(
-              "Join",
-              style: TextStyle(fontSize: 25),
+              child: Text(
+                "Join",
+                style: TextStyle(fontSize: 25),
+              ),
             ),
           ),
         ],
       ),
     );
   }
-    Widget _logOutWidget() {
-    return InkWell(
-      onTap: () {
-        //TODO: logout
-      },
-      child: Align(
-        alignment: Alignment.bottomLeft,
-        child: Container(
-          margin: EdgeInsets.only(left: 15, bottom: 15),
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.3),
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: Icon(
-            Icons.exit_to_app,
-            size: 30,
+
+  Widget _logOutWidget() {
+    return Align(
+      child: InkWell(
+        onTap: () {
+          //TODO: logout
+        },
+        child: Align(
+          alignment: Alignment.bottomLeft,
+          child: InkWell(
+            child: Container(
+              margin: EdgeInsets.only(left: 15, bottom: 15),
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Icon(
+                Icons.exit_to_app,
+                size: 30,
+              ),
+            ),
           ),
         ),
       ),
     );
   }
-
 }
