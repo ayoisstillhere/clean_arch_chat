@@ -57,74 +57,78 @@ class _BodyWidgetState extends State<BodyWidget> {
     );
   }
 
-  Container _loadingWidget() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-      ),
-      height: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "WELCOME TO ChatChat",
-            style: TextStyle(
-                fontSize: 30, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            """Hi, I’m Ayodele Fagbami. I’m a 19 year old software developer specialising in cross platform application development using flutter and firebase.""",
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.black54, fontSize: 15),
-          ),
-          SizedBox(height: 15),
-          _imageWidget(),
-          SizedBox(height: 15),
-          _formWidget(),
-          SizedBox(height: 15),
-          _buttonWidget(),
-          SizedBox(height: 40),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Lottie.asset("assets/loading.json"),
-          ),
-        ],
+  Widget _loadingWidget() {
+    return SingleChildScrollView(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "WELCOME TO ChatChat",
+              style: TextStyle(
+                  fontSize: 30, color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              """Hi, I’m Ayodele Fagbami. I’m a 19 year old software developer specialising in cross platform application development using flutter and firebase.""",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black54, fontSize: 15),
+            ),
+            SizedBox(height: 15),
+            _imageWidget(),
+            SizedBox(height: 15),
+            _formWidget(),
+            SizedBox(height: 15),
+            _buttonWidget(),
+            SizedBox(height: 40),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Lottie.asset("assets/loading.json"),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Container _bodyWidget() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-      ),
-      height: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "WELCOME TO ChatChat",
-            style: TextStyle(
-                fontSize: 30, color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            """Hi, I’m Ayodele Fagbami. I’m a 19 year old software developer specialising in cross platform application development using flutter and firebase.""",
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.black54, fontSize: 15),
-          ),
-          SizedBox(height: 15),
-          _imageWidget(),
-          SizedBox(height: 15),
-          _formWidget(),
-          SizedBox(height: 15),
-          _buttonWidget(),
-          SizedBox(height: 40),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: _rowTextWidget(),
-          ),
-        ],
+  Widget _bodyWidget() {
+    return SingleChildScrollView(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "WELCOME TO ChatChat",
+              style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
+            ),
+            Text(
+              """Hi, I’m Ayodele Fagbami. I’m a 19 year old software developer specialising in cross platform application development using flutter and firebase.""",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black54, fontSize: 15),
+            ),
+            SizedBox(height: 15),
+            _imageWidget(),
+            SizedBox(height: 15),
+            _formWidget(),
+            SizedBox(height: 15),
+            _buttonWidget(),
+            SizedBox(height: 40),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: _rowTextWidget(),
+            ),
+          ],
+        ),
       ),
     );
   }
