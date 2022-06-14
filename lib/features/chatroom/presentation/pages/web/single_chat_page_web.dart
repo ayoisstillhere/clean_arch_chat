@@ -1,4 +1,6 @@
+import 'package:clean_arch_chat/features/chatroom/presentation/bloc/communication/communication_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class SingleChatPageWeb extends StatefulWidget {
@@ -16,8 +18,27 @@ class SingleChatPageWeb extends StatefulWidget {
 }
 
 class _SingleChatPageWebState extends State<SingleChatPageWeb> {
+  TextEditingController _messageController = TextEditingController();
+
+  @override
+  void initState() {
+    BlocProvider.of<CommunicationCubit>(context).getTextMessages();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<CommunicationCubit, CommunicationState>(
+      builder: (context, state) {
+        if (state is CommunicationLoaded) {
+          return _bodyWidget(state);
+        }
+        return _loadingWidget();
+      },
+    );
+  }
+
+  Widget _bodyWidget(CommunicationLoaded messages) {
     return Scaffold(
       body: Stack(
         children: [
@@ -30,7 +51,29 @@ class _SingleChatPageWebState extends State<SingleChatPageWeb> {
           Column(
             children: [
               _headerWidget(),
-              _listMessagesWidget(),
+              _listMessagesWidget(messages),
+              _sendTextMessageWidget(),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _loadingWidget() {
+    return Scaffold(
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              "background_img.png",
+              fit: BoxFit.cover,
+            ),
+          ),
+          Column(
+            children: [
+              _headerWidget(),
+              Expanded(child: Center(child: CircularProgressIndicator())),
               _sendTextMessageWidget(),
             ],
           ),
@@ -83,12 +126,17 @@ class _SingleChatPageWebState extends State<SingleChatPageWeb> {
     );
   }
 
-  Widget _listMessagesWidget() {
+  Widget _listMessagesWidget(CommunicationLoaded messages) {
     return Expanded(
         child: ListView.builder(
-      itemCount: 1,
+      itemCount: messages.messages.length,
       itemBuilder: (_, index) {
-        return Container();
+        return Container(
+          child: Text(
+            messages.messages[index].message,
+            style: TextStyle(fontSize: 18),
+          ),
+        );
       },
     ));
   }
@@ -167,6 +215,7 @@ class _SingleChatPageWebState extends State<SingleChatPageWeb> {
             ),
             child: Scrollbar(
               child: TextField(
+                controller: _messageController,
                 maxLines: null,
                 decoration: InputDecoration(
                   border: InputBorder.none,
@@ -181,17 +230,33 @@ class _SingleChatPageWebState extends State<SingleChatPageWeb> {
   }
 
   Widget _sendMessageButton() {
-    return Container(
-      height: 50,
-      width: 50,
-      decoration: BoxDecoration(
-        color: Colors.green,
-        borderRadius: BorderRadius.all(Radius.circular(40)),
+    return InkWell(
+      onTap: () {
+        if (_messageController.text.isNotEmpty) {
+          _sendTextMessage();
+          _messageController.clear();
+        }
+      },
+      child: Container(
+        height: 50,
+        width: 50,
+        decoration: BoxDecoration(
+          color: Colors.green,
+          borderRadius: BorderRadius.all(Radius.circular(40)),
+        ),
+        child: Icon(
+          Icons.send,
+          color: Colors.white,
+        ),
       ),
-      child: Icon(
-        Icons.send,
-        color: Colors.white,
-      ),
+    );
+  }
+
+  void _sendTextMessage() {
+    BlocProvider.of<CommunicationCubit>(context).sendTextMsg(
+      uid: widget.uid,
+      name: widget.userName,
+      message: _messageController.text,
     );
   }
 }
