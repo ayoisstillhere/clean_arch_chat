@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +25,7 @@ class SingleChatPageWeb extends StatefulWidget {
 
 class _SingleChatPageWebState extends State<SingleChatPageWeb> {
   TextEditingController _messageController = TextEditingController();
+  ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -131,12 +134,18 @@ class _SingleChatPageWebState extends State<SingleChatPageWeb> {
   }
 
   Widget _listMessagesWidget(CommunicationLoaded messages) {
+    Timer(
+      Duration(milliseconds: 100),
+      () =>
+          _scrollController.jumpTo(_scrollController.position.maxScrollExtent),
+    );
     return Expanded(
         child: Container(
       margin: EdgeInsets.symmetric(
         horizontal: 20,
       ),
       child: ListView.builder(
+        controller: _scrollController,
         shrinkWrap: true,
         itemCount: messages.messages.length,
         itemBuilder: (_, index) {
