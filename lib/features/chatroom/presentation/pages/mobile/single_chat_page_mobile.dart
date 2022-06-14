@@ -115,7 +115,7 @@ class _SingleChatPageMobileState extends State<SingleChatPageMobile> {
               Text(
                 "Global Chat Room",
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 18,
                   color: Colors.white,
                 ),
               ),
@@ -223,8 +223,8 @@ class _SingleChatPageMobileState extends State<SingleChatPageMobile> {
 
   _emojiWidget() {
     return Container(
-      height: 50,
-      width: 50,
+      height: 40,
+      width: 40,
       decoration: BoxDecoration(
         color: Colors.black.withOpacity(0.2),
         borderRadius: BorderRadius.all(Radius.circular(40)),
@@ -238,8 +238,8 @@ class _SingleChatPageMobileState extends State<SingleChatPageMobile> {
 
   _micWidget() {
     return Container(
-      height: 50,
-      width: 50,
+      height: 40,
+      width: 40,
       decoration: BoxDecoration(
         color: Colors.black.withOpacity(0.2),
         borderRadius: BorderRadius.all(Radius.circular(40)),
@@ -255,7 +255,7 @@ class _SingleChatPageMobileState extends State<SingleChatPageMobile> {
     return ResponsiveBuilder(
       builder: (_, sizingInformation) {
         return Container(
-          width: sizingInformation.screenSize.width * 0.30,
+          width: sizingInformation.screenSize.width * 0.40,
           child: ConstrainedBox(
             constraints: BoxConstraints(
               maxHeight: 60,
@@ -284,8 +284,8 @@ class _SingleChatPageMobileState extends State<SingleChatPageMobile> {
         }
       },
       child: Container(
-        height: 50,
-        width: 50,
+        height: 40,
+        width: 40,
         decoration: BoxDecoration(
           color: Colors.green,
           borderRadius: BorderRadius.all(Radius.circular(40)),
