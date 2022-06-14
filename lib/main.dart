@@ -1,3 +1,4 @@
+import 'package:clean_arch_chat/features/chatroom/presentation/bloc/communication/communication_cubit.dart';
 import 'package:clean_arch_chat/features/chatroom/presentation/bloc/login/login_cubit.dart';
 import 'package:clean_arch_chat/features/chatroom/presentation/bloc/user/user_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -45,6 +46,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<UserCubit>(
           create: (_) => di.sl<UserCubit>(),
+        ),
+        BlocProvider<CommunicationCubit>(
+          create: (_) => di.sl<CommunicationCubit>(),
         ),
       ],
       child: MaterialApp(
