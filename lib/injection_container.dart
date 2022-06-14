@@ -1,4 +1,5 @@
 import 'package:clean_arch_chat/features/chatroom/domain/usecases/send_text_message_usecase.dart';
+import 'package:clean_arch_chat/features/chatroom/presentation/bloc/communication/communication_cubit.dart';
 import 'package:clean_arch_chat/features/chatroom/presentation/bloc/user/user_cubit.dart';
 import 'package:get_it/get_it.dart';
 
@@ -26,6 +27,8 @@ Future<void> init() async {
       signInUseCase: sl.call(),
       getCreateCurrentUser: sl.call()));
   sl.registerFactory<UserCubit>(() => UserCubit(usersUsecase: sl.call()));
+  sl.registerFactory<CommunicationCubit>(() => CommunicationCubit(
+      getMessagesUseCase: sl.call(), sendTextMessageUseCase: sl.call()));
 
   //!useCase
   sl.registerLazySingleton<IsSignInUseCase>(
